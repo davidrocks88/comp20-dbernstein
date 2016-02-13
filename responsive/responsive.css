@@ -41,3 +41,43 @@
                 background:url(software.png) -512px 0px;
         }
 }
+
+@media only screen and (min-width: 700px) and (max-width: 800px) {
+        .software {
+                width:130px;
+                height:240px;
+                background:url(software.png) 0px -237px;
+        }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 700px) {
+        .software {
+                width:130px;
+                height:240px;
+                background:url(software.png) -128px -237px;
+        }
+}
+
+@media only screen and (min-width: 500px) and (max-width: 600px) {
+        .software {
+                width:130px;
+                height:240px;
+                background:url(software.png) -256px -237px;
+        }
+}
+
+@media only screen and (min-width: 400px) and (max-width: 500px) {
+        .software {
+                width:130px;
+                height:240px;
+                background:url(software.png) -384px -237px;
+        }
+}
+
+@media only screen and (max-width: 400px) {
+        .software {
+                width:130px;
+                height:240px;
+                background:url(software.png) -512px -237px;
+        }
+}

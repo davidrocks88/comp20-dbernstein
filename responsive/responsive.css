@@ -1,7 +1,7 @@
 .software {
         width:130px;
         height:240px;
-        background:url(software.png); /* 0 -50px;*/
+        background:url(software.png);
  }
 
 @media only screen and (min-width: 1200px) {

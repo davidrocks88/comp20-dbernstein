@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>My Old Kentucky Home</title>
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+<h1 id="title">My Old Kentucky Home</h1>
+
+<video src="https://www.cs.tufts.edu/comp/20/my_old_kentucky_home.mp4" id="music_video" controls></video>
+<div id="lyrics"></div>
+
+<script>
+        var video = document.getElementById("music_video");
+
+        video.ontimeupdate = function() {updateTime(video.currentTime)};
+
+        function updateTime(currTime) {
+        // Display the current position of the video in a <p> element with id="demo"
+                if(currTime < 92) {
+                        document.getElementById("lyrics").innerHTML = "5";
+                }
+                if(currTime < 60) {
+                        document.getElementById("lyrics").innerHTML = "4";
+                }                
+                if(currTime < 30) {
+                        document.getElementById("lyrics").innerHTML = "3";
+                }
+                if(currTime < 10) {
+                        document.getElementById("lyrics").innerHTML = "2";
+                }
+                if(currTime < 5) {
+                        document.getElementById("lyrics").innerHTML = "1";
+                }
+        }
+</script>
+</body>
+</html> 

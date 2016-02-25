@@ -14,54 +14,73 @@
 <div id="lyrics"></div>
 
 <script>
+        var song = ["The sun shines bright in My Old Kentucky Home,",
+                    "'Tis summer, the people are gay;",
+                    "The corn-top's ripe and the meadow's in the bloom",
+                    "While the birds make music all the day.",
+                    "The young folks roll on the little cabin floor,",
+                    "All merry, all happy and bright;",
+                    "By 'n' by hard times comes a knocking at the door,",
+                    "Then My Old Kentucky Home, good night!",
+                    "Chorus",
+                    "Weep no more my lady",
+                    "Oh weep no more today;",
+                    "We will sing one song",
+                    "For My Old Kentucky Home",
+                    "For My Old Kentucky Home, far away"]
+
         var video = document.getElementById("music_video");
+        var lyrics = document.getElementById("lyrics");
+        video.ontimeupdate = function() {
+                updateLyrics(video.currentTime)
+        };
 
-        video.ontimeupdate = function() {updateTime(video.currentTime)};
+        function image(src, alt) { 
+                return ("<img src= '" + src + "' alt = '" + alt + "' id = 'image' />");
+        }
 
-        function updateTime(time) {
-        // Display the current position of the video in a <p> element with id="demo"
-
+        function updateLyrics(time) {
                 if(time < 14) {
-                        document.getElementById("lyrics").innerHTML = "For My Old Kentucky Home, far away";
+                        lyrics.innerHTML = song[13];
                 }
                 if(time < 13) {
-                        document.getElementById("lyrics").innerHTML = "For My Old Kentucky Home";
+                        lyrics.innerHTML = song[12];
                 }
                 if(time < 12) {
-                        document.getElementById("lyrics").innerHTML = "We will sing one song";
+                        lyrics.innerHTML = song[11];
                 }         
                 if(time < 11) {
-                        document.getElementById("lyrics").innerHTML = "Oh weep no more today;";
+                        lyrics.innerHTML = song[10];
                 }
                 if(time < 10) {
-                        document.getElementById("lyrics").innerHTML = "Weep no more my lady";
+                        lyrics.innerHTML = song[9];
                 }
                 if(time < 9) {
-                        document.getElementById("lyrics").innerHTML = "Chorus";
+                        lyrics.innerHTML = song[8];
                 }                
                 if(time < 8) {
-                        document.getElementById("lyrics").innerHTML = "Then My Old Kentucky Home, good night!";
+                        lyrics.innerHTML = song[7];
                 }
                 if(time < 7) {
-                        document.getElementById("lyrics").innerHTML = "By 'n' by hard times comes a knocking at the door,";
+                        lyrics.innerHTML = song[6];
                 }
                 if(time < 6) {
-                        document.getElementById("lyrics").innerHTML = "All merry, all happy and bright;";
+                        lyrics.innerHTML = song[5];
                 }
                 if(time < 5) {
-                        document.getElementById("lyrics").innerHTML = "The young folks roll on the little cabin floor,";
+                        lyrics.innerHTML = song[4];
                 }
                 if(time < 4) {
-                        document.getElementById("lyrics").innerHTML = "While the birds make music all the day.";
+                        lyrics.innerHTML = song[3];
                 }                
                 if(time < 3) {
-                        document.getElementById("lyrics").innerHTML = "The corn-top's ripe and the meadow's in the bloom";
+                        lyrics.innerHTML = song[2];
                 }
                 if(time < 2) {
-                        document.getElementById("lyrics").innerHTML = "'Tis summer, the people are gay;";
+                        lyrics.innerHTML = song[1];
                 }
                 if(time < 1) {
-                        document.getElementById("lyrics").innerHTML = "The sun shines bright in My Old Kentucky Home,";
+                        lyrics.innerHTML = song[0];
                 }
         }
 </script>

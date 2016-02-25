@@ -1,0 +1,25 @@
+body {
+        background-color: beige;
+
+}
+#title {
+        text-align: center;
+        font-size: 4vw;
+}
+
+#music_video {
+        display: block;
+        margin: 0 auto;        
+
+
+}
+
+#lyrics {
+        text-align: center;
+        font-size: 3vw;
+}
+
+#image {
+        width: 30%;
+        height: 30%;
+}

@@ -41,7 +41,7 @@
 
         function updateLyrics(time) {
                 if(time < 92) {
-                        lyrics.innerHTML = song[13];
+                        lyrics.innerHTML = song[13] + "<br>" + image("kfc.jpg", "My Old Kentucky Home");
                 }
                 if(time < 83) {
                         lyrics.innerHTML = song[12];
@@ -59,7 +59,7 @@
                         lyrics.innerHTML = song[8];
                 }                
                 if(time < 62) {
-                        lyrics.innerHTML = song[7];
+                        lyrics.innerHTML = song[7] + "<br>" + image("home.jpg", "Home sweet home");
                 }
                 if(time < 55) {
                         lyrics.innerHTML = song[6];
@@ -83,7 +83,7 @@
                         lyrics.innerHTML = song[0];
                 }
                 if(time < 9) {
-                        lyrics.innterHTML = "";
+                        lyrics.innterHTML = " ";
                 }
         }
 </script>

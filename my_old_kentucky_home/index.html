@@ -18,22 +18,50 @@
 
         video.ontimeupdate = function() {updateTime(video.currentTime)};
 
-        function updateTime(currTime) {
+        function updateTime(time) {
         // Display the current position of the video in a <p> element with id="demo"
-                if(currTime < 92) {
-                        document.getElementById("lyrics").innerHTML = "5";
+
+                if(time < 14) {
+                        document.getElementById("lyrics").innerHTML = "For My Old Kentucky Home, far away";
                 }
-                if(currTime < 60) {
-                        document.getElementById("lyrics").innerHTML = "4";
+                if(time < 13) {
+                        document.getElementById("lyrics").innerHTML = "For My Old Kentucky Home";
+                }
+                if(time < 12) {
+                        document.getElementById("lyrics").innerHTML = "We will sing one song";
+                }         
+                if(time < 11) {
+                        document.getElementById("lyrics").innerHTML = "Oh weep no more today;";
+                }
+                if(time < 10) {
+                        document.getElementById("lyrics").innerHTML = "Weep no more my lady";
+                }
+                if(time < 9) {
+                        document.getElementById("lyrics").innerHTML = "Chorus";
                 }                
-                if(currTime < 30) {
-                        document.getElementById("lyrics").innerHTML = "3";
+                if(time < 8) {
+                        document.getElementById("lyrics").innerHTML = "Then My Old Kentucky Home, good night!";
                 }
-                if(currTime < 10) {
-                        document.getElementById("lyrics").innerHTML = "2";
+                if(time < 7) {
+                        document.getElementById("lyrics").innerHTML = "By 'n' by hard times comes a knocking at the door,";
                 }
-                if(currTime < 5) {
-                        document.getElementById("lyrics").innerHTML = "1";
+                if(time < 6) {
+                        document.getElementById("lyrics").innerHTML = "All merry, all happy and bright;";
+                }
+                if(time < 5) {
+                        document.getElementById("lyrics").innerHTML = "The young folks roll on the little cabin floor,";
+                }
+                if(time < 4) {
+                        document.getElementById("lyrics").innerHTML = "While the birds make music all the day.";
+                }                
+                if(time < 3) {
+                        document.getElementById("lyrics").innerHTML = "The corn-top's ripe and the meadow's in the bloom";
+                }
+                if(time < 2) {
+                        document.getElementById("lyrics").innerHTML = "'Tis summer, the people are gay;";
+                }
+                if(time < 1) {
+                        document.getElementById("lyrics").innerHTML = "The sun shines bright in My Old Kentucky Home,";
                 }
         }
 </script>

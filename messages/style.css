@@ -1,1 +1,16 @@
 /* Your CSS here... */
+
+#individualMsg {
+        display: inline;
+        background-color: #66ff66;
+        border-radius: 3em;
+
+}
+
+h2 {
+        display: inline;
+        background-color: #66ff66;
+        border-radius: 3em;
+
+
+        }

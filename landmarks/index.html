@@ -9,9 +9,8 @@
                 <link rel="stylesheet" href="geolocation_map_style.css" />
                 
                 <script>
-                        var myLat = 0;
-                        var myLng = 0;
-                        var request = new XMLHttpRequest();
+                        myLat = 0;
+                        myLng = 0;
                         var me = new google.maps.LatLng(myLat, myLng);
                         var myOptions = {
                                                 zoom: 13, // The larger the zoom number, the bigger the zoom
@@ -40,10 +39,11 @@
                                         alert("Geolocation is not supported by your web browser.  What a shame!");
                                 }
                         }
+
                         function renderMap()
                         {
                                 me = new google.maps.LatLng(myLat, myLng);
-                                
+
                                 // Update map and go there...
                                 map.panTo(me);
         
@@ -53,6 +53,7 @@
                                         title: "Here I Am!"
                                 });
                                 marker.setMap(map);
+                                addMarkers();
                                         
                                 // Open info window on click of marker
                                 google.maps.event.addListener(marker, 'click', function() {
@@ -60,6 +61,157 @@
                                         infowindow.open(map, marker);
                                 });
                         }
+
+                        function addMarkers() {
+                                var login = "MOISES_MCBRIDE";
+                                var url = "https://defense-in-derpth.herokuapp.com/sendLocation";
+                                var request = new XMLHttpRequest();
+                                // var myLat = 0;
+                                // var myLng = 0;
+                                // navigator.geolocation.getCurrentPosition(function(position) {
+                                //         myLat = position.coords.latitude;
+                                //         myLng = position.coords.longitude;
+                                // });
+                                sendData = "login="+login+"&lat="+ myLat +"&lng="+ myLng;
+
+                                console.log("sendData = " + sendData);
+
+                                request.open("POST", url, true);
+                                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                                request.onreadystatechange = function() {
+                                        if (request.readyState == 4 && request.status == 200) {
+                                                console.log("Got the data back!");
+                                                data = JSON.parse(request.responseText);
+                                                // console.log(data);
+                                                doStuff(data);
+                                        }
+                                        else if (request.readyState == 4 && request.status != 200) {
+                                                // think 404 or 500
+                                                // document.getElementById("list").innerHTML = "<p>Whoops, something went terribly wrongo</p>";
+                                        }
+                                        else {
+                                                console.log("In progress...");
+                                        }
+                                };
+
+                                request.send(sendData);
+
+                                // temp = new google.maps.LatLng(tLat, tLng)
+                                // tmarker = new google.maps.Marker({
+                                //         position: temp,
+                                //         title: "temp"
+                                // });
+                                // tmarker.setMap(map);
+                                // google.maps.event.addListener(tmarker, 'click', function() {
+                                //         infowindow.setContent(tmarker.title);
+                                //         infowindow.open(map, tmarker);
+                                // });
+                        }
+
+                        function doStuff(data) {
+                                console.log("did stuff!");
+                                console.log(data);
+                                for(i = 0; i < data.landmarks.length; i++) {
+                                        var lng = data.landmarks[i].geometry.coordinates[0];
+                                        var lat = data.landmarks[i].geometry.coordinates[1];
+                                        var name = data.landmarks[i].properties.Location_Name;
+
+
+
+                                        var temp = new google.maps.LatLng(lat, lng)
+                                        var tmarker = new google.maps.Marker({
+                                                position: temp,
+                                                title: name
+                                        });
+                                        tmarker.setMap(map);
+                                        google.maps.event.addListener(tmarker, 'click', function() {
+                                                infowindow.setContent(tmarker.title);
+                                                infowindow.open(map, tmarker);
+                                        });
+                                }
+                        }
+
+
+                        function toRad(x) {
+                                return x * Math.PI / 180;
+                        }
+
+                        function distance(lat1, lng1, lat2, lng2, isMiles) {
+                                var R = 6371;
+
+                                var x1 = lat2 - lat1;
+                                var dLat = toRad(x1);
+
+                                var x2 = lng2 - lng1;
+                                var dLon = toRad(x2);
+
+                                var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                                    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                                    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                                var d = R * c;
+
+                                if(isMiles) d /= 1.60934;
+
+                                return d;
+                        }
+
+
+                        
+
+                        function locStuff() {
+                                // Step 1: set up HTTP request. Three required arguments...:
+                                // ...HTTP method (string), URL (string), asynch (boolean)
+                                // console.log(login);
+                                // console.log(myLat);
+                                // console.log(myLng);
+                                Lat = 0;
+                                Lng = 0;
+                                getMyLocation2(Lat, Lng);
+                                // alert(myLat);
+                                // alert(Lat);
+                                var login = "MOISES_MCBRIDE";
+                                var url = "https://defense-in-derpth.herokuapp.com/sendLocation";
+                                var request = new XMLHttpRequest();
+                                // var myLat = 0;
+                                // var myLng = 0;
+                                // navigator.geolocation.getCurrentPosition(function(position) {
+                                //         myLat = position.coords.latitude;
+                                //         myLng = position.coords.longitude;
+                                // });
+                                sendData = "login="+login+"&lat="+ myLat +"&lng="+ myLng;
+
+                                console.log(sendData);
+
+                                request.open("POST", url, true);
+                                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+                                request.onreadystatechange = function() {
+                                        if (request.readyState == 4 && request.status == 200) {
+                                                console.log("Got the data back!");
+                                                data = JSON.parse(request.responseText);
+                                                // console.log(data);
+                                                doStuff(data);
+                                        }
+                                        else if (request.readyState == 4 && request.status != 200) {
+                                                // think 404 or 500
+                                                // document.getElementById("list").innerHTML = "<p>Whoops, something went terribly wrongo</p>";
+                                        }
+                                        else {
+                                                console.log("In progress...");
+                                        }
+                                };
+
+
+
+
+                                request.send(sendData);
+
+                                console.log(request);
+                                //document.getElementById("list").innerHTML = JSON.stringify(request.response);
+                        }
+
                 </script>
         </head>
         

@@ -11,8 +11,6 @@
                 request.open("GET", "location.json", true);
                 // Step 2: Set up callback function to deal with HTTP response data
                 request.onreadystatechange = function() {
-                        console.log(request);
-                       // alert("status = " + request.status);
                         if (request.readyState == 4 && request.status == 200) {
                                 console.log("Got the data back!");
                                 data = request.responseText;
@@ -24,17 +22,15 @@
                         else if (request.readyState == 4 && request.status != 200) {
                                 // think 404 or 500
                                 document.getElementById("location").innerHTML = "<p>Whoops, something went terribly wrongo</p>";
-                                //console.log(request);
                         }
                         else {
                                 console.log("In progress...");
                         }
-                                        request.send(null);
-
                 };
                 // Step 3: trigger the HTTP request
                 // The argument for send() --data that you want to send to web server
-                alert(request.status);
+                request.send(null);
+                console.log(request);
         }
 </script>
 </head>

@@ -13,7 +13,10 @@
                 navigator.geolocation.getCurrentPosition(function(position) {
                         myLat = position.coords.latitude;
                         myLng = position.coords.longitude;
-                        });
+        });
+        function herro(){
+            console.log(myLat);
+        }
 
         function getLocation() {
                 // Step 1: set up HTTP request. Three required arguments...:
@@ -27,46 +30,68 @@
 
                 request.open("POST", url, true);
                 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                if(request.readyState==4 && request.status == 200) {
-                        alert("got it!");
-                                                        
 
-                }
+                request.onreadystatechange = function() {
+                        if (request.readyState == 4 && request.status == 200) {
+                                console.log("Got the data back!");
+                                data = JSON.parse(request.responseText);
+                                console.log(data);
+                                doStuff(data);
+                                                
+
+                        }
+                        else if (request.readyState == 4 && request.status != 200) {
+                                // think 404 or 500
+                                document.getElementById("list").innerHTML = "<p>Whoops, something went terribly wrongo</p>";
+                        }
+                        else {
+                                console.log("In progress...");
+                        }
+                };
+
                 request.send(sendData);
 
                 console.log(request);
-                alert("hi");
                 //document.getElementById("list").innerHTML = JSON.stringify(request.response);
-                data = JSON.parse(request.response);
-                console.log("data = " + data);
-                console.log(request.responseText);
-                                // Step 2: Set up callback function to deal with HTTP response data
-                // request.onreadystatechange = function() {
-                //         if (request.readyState == 4 && request.status == 200) {
-                //                 console.log("Got the data back!");
-                //                 data = request.responseText;
-                //                 console.log(data);
-                //                 loc = JSON.parse(data);
-                //                 elem = document.getElementById("location");
-                //                 elem.innerHTML = "<p>Carmen Sandiego was last seen at " + loc["description"] + "</p>";
-                //         }
-                //         else if (request.readyState == 4 && request.status != 200) {
-                //                 // think 404 or 500
-                //                 document.getElementById("location").innerHTML = "<p>Whoops, something went terribly wrongo</p>";
-                //         }
-                //         else {
-                //                 console.log("In progress...");
-                //         }
-                // };
-                // // Step 3: trigger the HTTP request
-                // // The argument for send() --data that you want to send to web server
-                // request.send(null);
         }
 
+        function doStuff(data) {
+                for(i = 0; i < data.landmarks.length; i++) {
+                        var lng = data.landmarks[i].geometry.coordinates[0];
+                        var lat = data.landmarks[i].geometry.coordinates[1];
+                        var name = data.landmarks[i].properties.Location_Name;
+                        document.getElementById("list").innerHTML = document.getElementById("list").innerHTML + "<br>" + name + ": " + distance(myLat, myLng, lat, lng, true);
+                }
 
+
+        }
+
+        function toRad(x) {
+                return x * Math.PI / 180;
+        }
+
+        function distance(lat1, lng1, lat2, lng2, isMiles) {
+                var R = 6371;
+
+                var x1 = lat2 - lat1;
+                var dLat = toRad(x1);
+
+                var x2 = lng2 - lng1;
+                var dLon = toRad(x2);
+
+                var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) *
+                    Math.sin(dLon / 2) * Math.sin(dLon / 2);
+                var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+                var d = R * c;
+
+                if(isMiles) d /= 1.60934;
+
+                return d;
+        }
 
 </script>
-
+<button onclick="herro()">herro</button>
 <button onclick="getLocation()"> getLocation</button>
         <div id="list">Waiting...<div>
 

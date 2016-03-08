@@ -92,24 +92,43 @@
                         function doStuff(data) {
                                 console.log("did stuff!");
                                 console.log(data);
-                                for(i = 0; i < data.landmarks.length; i++) {
+
+                                var length = data.landmarks.length;
+
+                                var markers = new Array(length);
+
+                                for(i = 0; i < length; i++) {
                                         var lng = data.landmarks[i].geometry.coordinates[0];
                                         var lat = data.landmarks[i].geometry.coordinates[1];
                                         var name = data.landmarks[i].properties.Location_Name;
-
-
 
                                         var temp = new google.maps.LatLng(lat, lng)
                                         var tmarker = new google.maps.Marker({
                                                 position: temp,
                                                 title: name
                                         });
+
+                                        markers[i] = new google.maps.Marker({
+                                                position: temp,
+                                                title: name
+                                        });
+
                                         tmarker.setMap(map);
                                         google.maps.event.addListener(tmarker, 'click', function() {
                                                 infowindow.setContent(tmarker.title);
                                                 infowindow.open(map, tmarker);
                                         });
                                 }
+
+                                for(i = 0; i < length; i++) {
+                                        markers[i].setMap(map);
+                                        google.maps.event.addListener(markers[i], 'click', function() {
+                                                infowindow.setContent(markers[i].title);
+                                                infowindow.open(map, markers[i]);
+                                        });                                    
+                                }
+                                console.log(markers);
+
                         }
 
 

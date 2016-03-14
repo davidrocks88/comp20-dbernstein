@@ -108,25 +108,38 @@
                                                 title: name
                                         });
 
-                                        markers[i] = new google.maps.Marker({
-                                                position: temp,
-                                                title: name
-                                        });
+                                        // markers[i] = new google.maps.Marker({
+                                        //         position: temp,
+                                        //         title: name
+                                        // });
+                                        markers[i] = tmarker;
 
-                                        tmarker.setMap(map);
+
+                                        //tmarker.setMap(map);
+                                        infowindow = new google.maps.InfoWindow();
+
+                                        tmarker.content = '<div>' + tmarker.title + '</div>';
+
+                                        // google.maps.event.addListener(tmarker, 'click', function() {
+                                        //         infowindow.setContent(tmarker.title);
+                                        //         infowindow.open(map, tmarker);
+                                        // });
                                         google.maps.event.addListener(tmarker, 'click', function() {
-                                                infowindow.setContent(tmarker.title);
-                                                infowindow.open(map, tmarker);
+                                                infowindow.setContent(this.content);
+                                                infowindow.open(this.getMap(), this);
                                         });
-                                }
+                                        tmarker.setMap(map);
 
-                                for(i = 0; i < length; i++) {
-                                        markers[i].setMap(map);
-                                        google.maps.event.addListener(markers[i], 'click', function() {
-                                                infowindow.setContent(markers[i].title);
-                                                infowindow.open(map, markers[i]);
-                                        });                                    
                                 }
+                                // for(i = 0; i < length; i++) {
+                                //         var marker = markers[i];
+                                //         marker.setMap(map);
+                                //         google.maps.event.addListener(marker, 'click', function() {
+                                //                 console.log(marker);
+                                //                 infowindow.setContent(marker.title);
+                                //                 infowindow.open(map, marker);
+                                //         });                                    
+                                // }
                                 console.log(markers);
 
                         }

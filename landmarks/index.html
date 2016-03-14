@@ -49,7 +49,8 @@
                                 // Create a marker
                                 marker = new google.maps.Marker({
                                         position: me,
-                                        title: "Here I Am!"
+                                        title: "Here I Am!",
+                                        icon: 'me.png'
                                 });
                                 marker.setMap(map);
                                 addMarkers();
@@ -73,16 +74,9 @@
 
                                 request.onreadystatechange = function() {
                                         if (request.readyState == 4 && request.status == 200) {
-                                                console.log("Got the data back!");
                                                 data = JSON.parse(request.responseText);
                                                 // console.log(data);
                                                 doStuff(data);
-                                        }
-                                        else if (request.readyState == 4 && request.status != 200) {
-                                            console.log("got bad status code");
-                                        }
-                                        else {
-                                                console.log("In progress...");
                                         }
                                 };
 
@@ -90,58 +84,92 @@
                         }
 
                         function doStuff(data) {
-                                console.log("did stuff!");
-                                console.log(data);
 
-                                var length = data.landmarks.length;
+                                var length1 = data.landmarks.length;
+                                var lengthArray = new Array(length1);
 
-                                var markers = new Array(length);
-
-                                for(i = 0; i < length; i++) {
+                                for(i = 0; i < length1; i++) {
                                         var lng = data.landmarks[i].geometry.coordinates[0];
                                         var lat = data.landmarks[i].geometry.coordinates[1];
                                         var name = data.landmarks[i].properties.Location_Name;
 
                                         var temp = new google.maps.LatLng(lat, lng)
+                                        var image = 'landmark.png';
                                         var tmarker = new google.maps.Marker({
                                                 position: temp,
-                                                title: name
+                                                title: name,
+                                                icon: image
                                         });
 
-                                        // markers[i] = new google.maps.Marker({
-                                        //         position: temp,
-                                        //         title: name
-                                        // });
-                                        markers[i] = tmarker;
+                                        var stuff = data.landmarks[i].properties.Details;
 
-
-                                        //tmarker.setMap(map);
                                         infowindow = new google.maps.InfoWindow();
 
-                                        tmarker.content = '<div>' + tmarker.title + '</div>';
+                                        tmarker.content = '<div>' + '<b> Distance: </b>' + distance(lat, lng, myLat, myLng, true)+' miles<br>' + stuff + '</div>';
 
-                                        // google.maps.event.addListener(tmarker, 'click', function() {
-                                        //         infowindow.setContent(tmarker.title);
-                                        //         infowindow.open(map, tmarker);
-                                        // });
                                         google.maps.event.addListener(tmarker, 'click', function() {
                                                 infowindow.setContent(this.content);
                                                 infowindow.open(this.getMap(), this);
                                         });
                                         tmarker.setMap(map);
 
+                                        lengthArray[i] = [lat, lng];
                                 }
-                                // for(i = 0; i < length; i++) {
-                                //         var marker = markers[i];
-                                //         marker.setMap(map);
-                                //         google.maps.event.addListener(marker, 'click', function() {
-                                //                 console.log(marker);
-                                //                 infowindow.setContent(marker.title);
-                                //                 infowindow.open(map, marker);
-                                //         });                                    
-                                // }
-                                console.log(markers);
 
+                                for(i = 0; i < data.people.length; i++) {
+                                    var lng = data.people[i].lng;
+                                        var lat = data.people[i].lat;
+                                        var name = data.people[i].login;
+
+                                        var temp = new google.maps.LatLng(lat, lng)
+                                        var image = 'person.png';
+                                        var tmarker = new google.maps.Marker({
+                                                position: temp,
+                                                title: name,
+                                                icon: image
+                                        });
+
+                                        var stuff = name;
+
+                                        infowindow = new google.maps.InfoWindow();
+
+                                        tmarker.content = '<div>' + '<b> Distance: </b>' + distance(lat, lng, myLat, myLng, true)+' miles<br>' + stuff + '</div>';
+
+                                        google.maps.event.addListener(tmarker, 'click', function() {
+                                                infowindow.setContent(this.content);
+                                                infowindow.open(this.getMap(), this);
+                                        });
+                                        tmarker.setMap(map);
+                                }
+
+
+                                var minLat = lengthArray[0][0];
+                                var minLng = lengthArray[0][1];
+                                var min = distance(minLat, minLng, myLat, myLng, true);
+                                for(i = 0; i < lengthArray.length; i++) {
+                                    var lat = lengthArray[i][0];
+                                    var lng = lengthArray[i][1];
+                                    var dist = distance(lat, lng, myLat, myLng, true);
+
+                                    if(min > dist && dist != 0) {
+                                        minLat = lat;
+                                        minLng = lng;
+                                    }
+                                }
+
+                                  var polyline = [
+                                    {lat: myLat, lng: myLng},
+                                    {lat: minLat, lng: minLng}
+                                  ];
+                                  var flightPath = new google.maps.Polyline({
+                                    path: polyline,
+                                    geodesic: true,
+                                    strokeColor: '#FF0000',
+                                    strokeOpacity: 1.0,
+                                    strokeWeight: 2
+                                  });
+
+                                  flightPath.setMap(map);
                         }
 
 
@@ -166,7 +194,7 @@
 
                                 if(isMiles) d /= 1.60934;
 
-                                return d;
+                                return d.toFixed(2);
                         }
                 </script>
         </head>

@@ -100,7 +100,6 @@
                                         var lng = data.landmarks[i].geometry.coordinates[0];
                                         var lat = data.landmarks[i].geometry.coordinates[1];
                                         var name = data.landmarks[i].properties.Location_Name;
-
                                         var temp = new google.maps.LatLng(lat, lng)
                                         var image = 'landmark.png';
                                         var tmarker = new google.maps.Marker({
@@ -124,30 +123,34 @@
                                         lengthArray[i] = [lat, lng];
                                 }
                                 var login = "MOISES_MCBRIDE";
+
                                 for(i = 0; i < data.people.length; i++) {
                                     if(!(data.people[i].login === login)) { 
                                         var lng = data.people[i].lng;
                                         var lat = data.people[i].lat;
-                                        var name = data.people[i].login;
-                                        var temp = new google.maps.LatLng(lat, lng)
-                                        var image = 'person.png';
-                                        var tmarker = new google.maps.Marker({
-                                                position: temp,
-                                                title: name,
-                                                icon: image
-                                        });
+                                        var dist = distance(lat, lng, myLat, myLng, true);
+                                        if(dist <= 1) {
+                                            var name = data.people[i].login;
+                                            var temp = new google.maps.LatLng(lat, lng)
+                                            var image = 'person.png';
+                                            var tmarker = new google.maps.Marker({
+                                                    position: temp,
+                                                    title: name,
+                                                    icon: image
+                                            });
 
-                                        var stuff = name;
+                                            var stuff = name;
 
-                                        infowindow = new google.maps.InfoWindow();
+                                            infowindow = new google.maps.InfoWindow();
 
-                                        tmarker.content = '<div>' + '<b> Distance: </b>' + distance(lat, lng, myLat, myLng, true)+' miles<br>' + stuff + '</div>';
+                                            tmarker.content = '<div>' + '<b> Distance: </b>' + dist+' miles<br>' + stuff + '</div>';
 
-                                        google.maps.event.addListener(tmarker, 'click', function() {
-                                                infowindow.setContent(this.content);
-                                                infowindow.open(this.getMap(), this);
-                                        });
-                                        tmarker.setMap(map);
+                                            google.maps.event.addListener(tmarker, 'click', function() {
+                                                    infowindow.setContent(this.content);
+                                                    infowindow.open(this.getMap(), this);
+                                            });
+                                            tmarker.setMap(map);
+                                        }
                                     }
                                 }
 

@@ -14,9 +14,9 @@
                         myLng = 0;
                         var me = new google.maps.LatLng(myLat, myLng);
                         var myOptions = {
-                                                zoom: 13, // The larger the zoom number, the bigger the zoom
-                                                center: me,
-                                                mapTypeId: google.maps.MapTypeId.ROADMAP
+                                            zoom: 13, // The larger the zoom number, the bigger the zoom
+                                            center: me,
+                                            mapTypeId: google.maps.MapTypeId.ROADMAP
                                         };
                         var map;
                         var marker;
@@ -24,17 +24,17 @@
                         
                         function init()
                         {
-                                map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-                                getMyLocation();
+                            map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+                            getMyLocation();
                         }
                         
                         function getMyLocation() {
                                 if (navigator.geolocation) { // the navigator.geolocation object is supported on your browser
                                         navigator.geolocation.getCurrentPosition(function(position) {
-                                                myLat = position.coords.latitude;
-                                                myLng = position.coords.longitude;
-                                                //renderMap();
-                                                addMarkers();
+                                            myLat = position.coords.latitude;
+                                            myLng = position.coords.longitude;
+                                            //renderMap();
+                                            addMarkers();
                                         });
                                 }
                                 else {
@@ -74,7 +74,6 @@
 
                                 request.open("POST", url, true);
                                 request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-                                //request.send(sendData);
                                 return request;
                         }
 
@@ -86,14 +85,9 @@
                                 request.onreadystatechange = function() {
                                         if (request.readyState == 4 && request.status == 200) {
                                                 data = JSON.parse(request.responseText);
-                                                // console.log(data);
-                                                statement=doStuff(data);
-                                                console.log(statement);
-                                                renderMap(statement);
-
+                                                renderMap(doStuff(data));
                                         }
                                 };
-                                console.log(request);
                                 return statement;
                         }
 
@@ -190,8 +184,10 @@
                                   flightPath.setMap(map);
 
 
-                                  var statement = "The closest landmark from where I am is <b> " + data.landmarks[j].properties.Location_Name + "</b> which is <b> " + min + "</b> miles away from me";
-                                  console.log(statement);
+                                  var statement = "The closest landmark from where I am is <b> " 
+                                                + data.landmarks[j].properties.Location_Name 
+                                                + "</b> which is <b> " + min 
+                                                + "</b> miles away from me";
                                   return statement;
                         }
 

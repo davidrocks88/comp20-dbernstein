@@ -5,9 +5,40 @@
 <head>
         <title>Captain's Log</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-        <script>
-          // Your work will be done here...
-        </script>
+<script>
+        
+        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+
+        function reload() {
+                console.log("in reload");
+                elem = $("#log");
+                output = "";
+                for (key in localStorage) {
+                        output = output + "<p>" + localStorage[key] + "</p>\n";
+                }
+                elem.innerHTML = output;
+        }
+
+        $(document).ready(function() {
+                elem = document.getElementById("log");
+                output = "";
+
+                for (key in localStorage) {
+                        output = output + "<p>" + localStorage[key] + "</p>\n";
+                }
+                elem.innerHTML = output;
+        });
+        $(function() {
+                $('#msg').change(function() {
+                localStorage[new Date()] = this.value;
+                reload();
+                });
+        });
+
+
+</script>
 </head>
 
 <body>

@@ -5,41 +5,42 @@
 <head>
         <title>Captain's Log</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-<script>
-        
-        var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-        var days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+        <script>
+                function reload() {
+                        elem = $("#log");
+                        output = "";
 
+                        // Array for each log        
+                        var localStorageArray = new Array();
 
-        function reload() {
-                console.log("in reload");
-                elem = $("#log");
-                output = "";
-                for (key in localStorage) {
-                        output = output + "<p>" + key + "      " + localStorage[key] + "</p>\n";
+                        for(i = 0; i < localStorage.length; i++) {
+                                var key = localStorage.key(i);
+                                var value = localStorage[key];
+                                localStorageArray[i] = key + ": " + value;
+                        }
+                        
+                        // Sort the array because local storage is not sorted
+                        localStorageArray.sort();
+
+                        // Reformat output
+                        for(i = 0; i < localStorageArray.length; i++) {
+                                output = output + "<p>" + localStorageArray[i] + "</p>\n";
+                        }
+
+                        elem.html(output);
                 }
-                console.log(output);
-                elem.html(output);
-        }
 
-        $(document).ready(function() {
-                elem = document.getElementById("log");
-                output = "";
-
-                for (key in localStorage) {
-                        output = output + "<p>" + key + "      " + localStorage[key] + "</p>\n";
-                }
-                elem.innerHTML = output;
-        });
-        $(function() {
-                $('#msg').change(function() {
-                localStorage[new Date()] = this.value;
-                reload();
+                $(document).ready(function() {
+                        reload();
                 });
-        });
 
-
-</script>
+                $(function() {
+                        $('#msg').change(function() {
+                        localStorage[new Date()] = this.value;
+                        reload();
+                        });
+                });
+        </script>
 </head>
 
 <body>

@@ -16,9 +16,10 @@
                 elem = $("#log");
                 output = "";
                 for (key in localStorage) {
-                        output = output + "<p>" + localStorage[key] + "</p>\n";
+                        output = output + "<p>" + key + "      " + localStorage[key] + "</p>\n";
                 }
-                elem.innerHTML = output;
+                console.log(output);
+                elem.html(output);
         }
 
         $(document).ready(function() {
@@ -26,7 +27,7 @@
                 output = "";
 
                 for (key in localStorage) {
-                        output = output + "<p>" + localStorage[key] + "</p>\n";
+                        output = output + "<p>" + key + "      " + localStorage[key] + "</p>\n";
                 }
                 elem.innerHTML = output;
         });

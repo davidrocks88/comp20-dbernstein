@@ -123,12 +123,12 @@
 
                                         lengthArray[i] = [lat, lng];
                                 }
-
+                                var login = "MOISES_MCBRIDE";
                                 for(i = 0; i < data.people.length; i++) {
-                                    var lng = data.people[i].lng;
+                                    if(!(data.people[i].login === login)) { 
+                                        var lng = data.people[i].lng;
                                         var lat = data.people[i].lat;
                                         var name = data.people[i].login;
-
                                         var temp = new google.maps.LatLng(lat, lng)
                                         var image = 'person.png';
                                         var tmarker = new google.maps.Marker({
@@ -148,6 +148,7 @@
                                                 infowindow.open(this.getMap(), this);
                                         });
                                         tmarker.setMap(map);
+                                    }
                                 }
 
 

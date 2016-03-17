@@ -8,7 +8,6 @@
         <script>
                 function reload() {
                         elem = $("#log");
-                        output = "";
 
                         // Array for each log        
                         var localStorageArray = new Array();
@@ -22,7 +21,7 @@
                         // Sort the array because local storage is not sorted
                         localStorageArray.sort();
 
-                        // Reformat output
+                        output = "";
                         for(i = 0; i < localStorageArray.length; i++) {
                                 output = output + "<p>" + localStorageArray[i] + "</p>\n";
                         }
@@ -30,14 +29,16 @@
                         elem.html(output);
                 }
 
+                // When the document loads, set up initial log from localStorage
                 $(document).ready(function() {
                         reload();
                 });
 
-                $(function() {
+                // Store log in local storage, then reload the log
+                $(function() { 
                         $('#msg').change(function() {
-                        localStorage[new Date()] = this.value;
-                        reload();
+                                localStorage[new Date()] = this.value;
+                                reload();
                         });
                 });
         </script>

@@ -1,3 +1,11 @@
+# David Bernstein
+# Comp 20 - Lab 8
+# March 26, 2016
+
+This lab took me about 2 hours to complete, and I had no assistance with it. It is fully implemented, to the best of my knowledge.
+
+
+
 # node-js-getting-started
 
 A barebones Node.js app using [Express 4](http://expressjs.com/).

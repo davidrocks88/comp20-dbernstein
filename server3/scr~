@@ -1,0 +1,1 @@
+mongoimport -h ds011880.mlab.com:11880 -d heroku_nrbm4r4z -c landmarks -u heroku_nrbm4r4z -p i6m8h77lp03m0dpd887gfkq2mt --file landmarks.json

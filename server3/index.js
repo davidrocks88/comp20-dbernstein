@@ -15,7 +15,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // process.env.MONGOHQ_URL is the environment variable on Heroku for the MongoHQ add-on
 // If environment variables not found, fall back to mongodb://localhost/nodemongoexample
 // nodemongoexample is the name of the database
-var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/nodemongoexample';
+var mongoUri = process.env.MONGOLAB_URI || process.env.MONGOHQ_URL || 'mongodb://localhost/server3';
 var MongoClient = require('mongodb').MongoClient, format = require('util').format;
 var db = MongoClient.connect(mongoUri, function(error, databaseConnection) {
         db = databaseConnection;
@@ -28,13 +28,22 @@ app.post('/sendLocation', function(request, response) {
         var login = request.body.login;
         var lat = request.body.lat;
         var lng = request.body.lng;
+        var created_at = Date();
 
         console.log(login);
         console.log(lat);
         console.log(lng);
-        /*
-        db.collection('fooditems', function(error, coll) {
-                var id = coll.insert(toInsert, function(error, saved) {
+
+        var checkIn = {
+                "login"     : login,
+                "lat"       : lat,
+                "lng"       : lng,
+                "created_at": created_at
+        }
+        //db.collection('landmarks').createIndex({'geometry':"2dsphere"}, callback_function);
+
+        db.collection('checkins', function(error, coll) {
+                var id = coll.insert(checkIn, function(error, saved) {
                         if (error) {
                                 response.send(500);
                         }
@@ -42,23 +51,30 @@ app.post('/sendLocation', function(request, response) {
                                 response.send(200);
                         }
             });
-        });*/
+        });
 });
-app.post('/feedme', function(request, response) {
-        var food = request.body.food;
-        food = food.replace(/[^\w\s]/gi, '');
-        var toInsert = {
-                "food": food,
-        };
-        db.collection('fooditems', function(error, coll) {
-                var id = coll.insert(toInsert, function(error, saved) {
-                        if (error) {
-                                response.send(500);
+
+app.get('/checkins.json', function(request, response) {
+        response.header("Access-Control-Allow-Origin", "*");
+        response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        
+        var login = request.query.login;
+
+        if(!login) {
+            response.send([]);
+            return;
+        }
+
+        var toFind = {"login": login};
+
+        db.collection('checkins', function(error, coll) {
+                coll.find(toFind).toArray(function(err, cursor) {
+                        if (!err) {
+                                response.send(cursor);
+                        } else {
+                                console.log("error");
                         }
-                        else {
-                                response.send(200);
-                        }
-            });
+                });
         });
 });
 

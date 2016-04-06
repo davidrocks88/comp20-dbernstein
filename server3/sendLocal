@@ -1,0 +1,5 @@
+read login
+read lat
+read lng
+
+curl --data "login='$login'&lat='$lat'&lng='$lng" 130.64.193.121:3000/checkins.json

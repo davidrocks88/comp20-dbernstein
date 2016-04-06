@@ -1,0 +1,35 @@
+<!doctype html>
+<html>
+<head>
+        <title>Sender</title>
+</head>
+<body>
+        <script type="text/javascript">
+                function sendStuff() {
+                        var request = new XMLHttpRequest()
+
+                        var login = document.getElementById('login').value;
+
+                        var url = "http://130.64.193.121:3000/checkins.json?login=" + login;
+                        request.open("GET", url, true);
+                        request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                        request.send();
+                        console.log(request);
+                        request.onreadystatechange = function() {
+                                console.log(request);
+                                if(request.readyState == 4 && request.status == 200) {
+                                        //console.log(request);
+                                        data = JSON.parse(request.responseText);
+                                        console.log(data);
+                                      //  console.log(data);
+                                        doStuff(data);
+                                }
+                        }
+
+                }
+        </script>
+        login <input id="login"> </input>
+        <button onclick="sendStuff()">send</button>
+        <div id="stuff"></div>
+</body>
+</html>

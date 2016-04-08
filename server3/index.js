@@ -23,10 +23,14 @@ var db = MongoClient.connect(mongoUri, function(error, databaseConnection) {
 
 // Serve static content
 app.use(express.static(__dirname + '/public'));
-
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.post('/sendLocation', function(request, response) {
-        response.header("Access-Control-Allow-Origin", "*");
-        response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        // response.header("Access-Control-Allow-Origin", "*");
+        // response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         var login = request.body.login;
         var lat = Number(request.body.lat);
         var lng = Number(request.body.lng);
@@ -47,15 +51,19 @@ app.post('/sendLocation', function(request, response) {
         }
         console.log(checkIn);
         db.collection('checkins', function(error, coll) {
-                var id = coll.insert(checkIn, function(error, saved) {
-                        if (error) {
-                                console.log("error adding checkin");
-                        }
-                        else {
-                                console.log("Successfully added checkin");
-                        }
+            coll.insert(checkIn, function(error, saved) {
+                if (error) {
+                    console.log("error adding checkin");
+                }
+                else {
+                    console.log("Successfully added checkin");
+                }
+            });
+            coll.find().toArray(function(peopleErr, people) {
+                returnData.people = people;
             });
         });
+
 
         db.collection('landmarks').createIndex({'geometry':"2dsphere"}, function(err, res){
             if(!err) {
@@ -63,6 +71,7 @@ app.post('/sendLocation', function(request, response) {
                     coll.find({geometry:{$near:{$geometry:{type:"Point",coordinates:[lng,lat]},$maxDistance: 1609}}}).toArray(function(landmarkErr, nearestLandmarks) {
                         if(!landmarkErr) {
                             returnData.landmarks = nearestLandmarks;
+                            console.log(returnData);
                             response.send(returnData);
                         }
                         else {

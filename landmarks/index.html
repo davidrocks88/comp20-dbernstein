@@ -67,7 +67,7 @@
 
                         function xmlStartup() {
                                 var login = "MOISES_MCBRIDE";
-                                var url = "https://defense-in-derpth.herokuapp.com/sendLocation";
+                                var url = "http://serverserverserver.herokuapp.com/sendLocation";
                                 var request = new XMLHttpRequest();
 
                                 sendData = "login="+login+"&lat="+ myLat +"&lng="+ myLng;
@@ -125,11 +125,12 @@
                                 var login = "MOISES_MCBRIDE";
 
                                 for(i = 0; i < data.people.length; i++) {
-                                    if(!(data.people[i].login === login)) { 
+                                    if(!(data.people[i].login === login)) {
                                         var lng = data.people[i].lng;
                                         var lat = data.people[i].lat;
                                         var dist = distance(lat, lng, myLat, myLng, true);
                                         if(dist <= 1) {
+
                                             var name = data.people[i].login;
                                             var temp = new google.maps.LatLng(lat, lng)
                                             var image = 'person.png';
@@ -153,7 +154,6 @@
                                         }
                                     }
                                 }
-
 
                                 var minLat = lengthArray[0][0];
                                 var minLng = lengthArray[0][1];

@@ -84,8 +84,10 @@
                                 request.statement = statement;
                                 request.onreadystatechange = function() {
                                         if (request.readyState == 4 && request.status == 200) {
+        
                                                 data = JSON.parse(request.responseText);
                                                 renderMap(doStuff(data));
+        
                                         }
                                 };
                                 return statement;
@@ -119,7 +121,7 @@
                                                 infowindow.open(this.getMap(), this);
                                         });
                                         tmarker.setMap(map);
-
+                                        
                                         lengthArray[i] = [lat, lng];
                                 }
                                 var login = "MOISES_MCBRIDE";
@@ -129,9 +131,9 @@
                                         var lng = data.people[i].lng;
                                         var lat = data.people[i].lat;
                                         var dist = distance(lat, lng, myLat, myLng, true);
-                                        if(dist <= 1) {
 
-                                            var name = data.people[i].login;
+                                        if(dist <= 1) {
+                                                var name = data.people[i].login;
                                             var temp = new google.maps.LatLng(lat, lng)
                                             var image = 'person.png';
                                             var tmarker = new google.maps.Marker({
@@ -154,7 +156,6 @@
                                         }
                                     }
                                 }
-
                                 var minLat = lengthArray[0][0];
                                 var minLng = lengthArray[0][1];
                                 var min = distance(minLat, minLng, myLat, myLng, true);

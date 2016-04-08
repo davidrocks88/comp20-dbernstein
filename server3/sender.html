@@ -3,14 +3,13 @@
 <head>
         <title>Sender</title>
 </head>
-<body>
+<body onload='sendStuff()'>
         <script type="text/javascript">
                 function sendStuff() {
                         var request = new XMLHttpRequest()
 
-                        var login = document.getElementById('login').value;
 
-                        var url = "http://130.64.193.121:3000/checkins.json?login=" + login;
+                        var url = "http://localhost:3000/";
                         request.open("GET", url, true);
                         request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
                         request.send();
@@ -19,7 +18,7 @@
                                 console.log(request);
                                 if(request.readyState == 4 && request.status == 200) {
                                         //console.log(request);
-                                        data = JSON.parse(request.responseText);
+                                        data = request.responseText;
                                         console.log(data);
                                       //  console.log(data);
                                         doStuff(data);
@@ -27,9 +26,13 @@
                         }
 
                 }
+
+                function doStuff(data) {
+                    document.getElementById('stuff').innerHTML = data;
+
+                }
         </script>
-        login <input id="login"> </input>
-        <button onclick="sendStuff()">send</button>
+ 
         <div id="stuff"></div>
 </body>
 </html>

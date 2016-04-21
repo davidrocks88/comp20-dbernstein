@@ -143,4 +143,22 @@ app.get('/', function(request, response) {
     });
 });
 
+app.get('/clear', function(request, response) {
+    db.collection('checkins', function(error, collection) {
+        if(error) {
+            response.send("There was an error connecting to the checkins collection");
+        }
+        else
+            collection.remove({},function(err, cursor) {
+                if(err) {
+                    response.send('failed to clear the database');
+                }
+                else
+                    response.send("Successfully cleared checkins");
+            });
+
+    });
+
+});
+
 app.listen(process.env.PORT || 3000);

@@ -1,0 +1,4 @@
+Introduction:
+This is a security and privacy assessment of the client and server-side of @vtran's historic landmark project. This is a web application server that will provide nearby landmarks given a latitude and longitude. I have been hired to find the vulnerabilities within the site through any means necessary. 
+Methodology: 
+I began by testing via "black-box", testing without any access to the source code. Then, I examined the source code to find additional vulnerabilities. The tools I used were curl, safari, and tamper (via Firefox).

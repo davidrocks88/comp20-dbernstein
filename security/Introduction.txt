@@ -1,0 +1,34 @@
+Security Assessment - David Bernstein
+
+Introduction:
+This is a security and privacy assessment of the client and server-side of @vtran's historic landmark project. This is a web application server that will provide nearby landmarks given a latitude and longitude. I have been hired to find the vulnerabilities within the site through any means necessary. 
+Methodology: 
+I began by testing via "black-box", testing without any access to the source code. Then, I examined the source code to find additional vulnerabilities. The tools I used were curl, safari, and tamper (via Firefox).
+
+Abstract of Findings:
+
+Issues Found:
+Issue 1: Cross Site Scripting (XSS)
+Location: homepage, sendLocation
+Severity: High. This can been seen by all users, so it can immediately turn users away from the site. Additionally, this can make a script be ran on every client's computer.
+Description: When the user parses the login, latitude, and longitude posted by the user, no sanitation is performed. Thus, if a script is posted into any one of the fields, then the database will simply think that the script is just another name. Then, when providing all of the names in the index page, the script will be executed. For instance, using the command "curl --data "lat=1&lng=1&login=<script>window.location ='http://www.google.com'\
+</script>" https://pumpkin-tart-22013.herokuapp.com/sendLocation", one can force the site to automatically redirect to google.
+Proof of vulnerability:
+Resolution: This can be resolved by replacing special characters using regular expression. Another solution is to use a npm module (i.e. sanitize-html) to handle the sanitation of user data so that no script tags can be allowed.
+
+Issue 2: Image injection
+Location: homepage, sendLocation
+Severity: Medium. While this can be seen by all users, it only displays an image, which, while can turn away users, is not dangerous to their machines.
+Description: When posting to /sendLocation, if one says that their login is an image by saying "login=<img src='https://36.media.tumblr.com/793cff1ce2b6b72542aab145095958c5/tumblr_inline_o63vjmEVKI1rwizz0_540.jpg' />, then an image will appear instead of a name.
+Proof of vulnerability:
+Resolution: This can be resolved by escaping user input (or otherwise somehow sanitizing it) before it is inserted into the database. Similar to issue 1, this can be addressed by using regular expression or some node module for sanitation such as sanitize-html (though one can also write their own sanitation function).
+
+Issue 3: Phishing
+Location: homepage, sendLocation
+Severity: High. One can make the site look innocent, yet by clicking anywhere, a hacker can force the user to execute any script.
+Description: When the client looks at the homepage, everything looks normal. However, if they click anywhere, a javascript function is executed and an alert is shown. This occurs when a phishing script is sent to /sendLocation as the login.
+Proof of vulnerability:
+Resolution: Sanitize the user input for the name. Additionally, making sure that the user is not trying to change any styles in the page is another thing to worry about.
+
+Conclusion:
+Overall, the main issue is in user input sanitation. All three of these issues can be fixed by making sure the user is not inputting malicious data. One could hire a developer to do this for a couple hundred dollars. On another note, one should observe that the site is inherently a security risk because it is a huge risk to user privacy. By blatantly revealing the exact latitude and longitude of every user, hackers can use this to their advantage. A secure login/user system would be extremely beneficial for this.

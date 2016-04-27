@@ -1,0 +1,1 @@
+curl --data "lat=1&lng=1&login=<img src='https://36.media.tumblr.com/793cff1ce2b6b72542aab145095958c5/tumblr_inline_o63vjmEVKI1rwizz0_540.jpg' />" https://pumpkin-tart-22013.herokuapp.com/sendLocation

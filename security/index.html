@@ -1,6 +1,8 @@
 <!doctype html>
 <html>
 <head>
+        <link rel="stylesheet" type="text/css" href="security.css">
+        <title> Security Assessment </title>
 </head>
 <body>
 
@@ -18,21 +20,21 @@ I began by testing via "black-box", testing without any access to the source cod
 <strong>Severity:</strong> High. This can been seen by all users, so it can immediately turn users away from the site. Additionally, this can make a script be ran on every client's computer.<br>
 <strong>Description:</strong> When the user parses the login, latitude, and longitude posted by the user, no sanitation is performed. Thus, if a script is posted into any one of the fields, then the database will simply think that the script is just another name. Then, when providing all of the names in the index page, the script will be executed. For instance, using the command "curl --data "lat=1&lng=1&login=<script>window.location ='http://www.google.com'\
 </script>" https://pumpkin-tart-22013.herokuapp.com/sendLocation", one can force the site to automatically redirect to google.<br>
-<strong>Proof of vulnerability:</strong><br>
+<strong>Proof of vulnerability:<br></strong><img class="image" src="img/XSS1.png"/><img class="image" src="img/XSS2.png"/><br>
 <strong>Resolution:</strong> This can be resolved by replacing special characters using regular expression. Another solution is to use a npm module (i.e. sanitize-html) to handle the sanitation of user data so that no script tags can be allowed.
 
 <h3>Issue 2: Image injection</h3>
 <strong>Location:</strong> homepage, sendLocation<br>
 <strong>Severity:</strong> Medium. While this can be seen by all users, it only displays an image, which, while can turn away users, is not dangerous to their machines.<br>
 <strong>Description:</strong> When posting to /sendLocation, if one says that their login is an image by saying "login=<'img src=[image url] />, then an image will appear instead of a name.<br>
-<strong>Proof of vulnerability:</strong><br>
+<strong>Proof of vulnerability:</strong><br><img class="image" src="img/injection1.png"/><img class="image" src="img/injection2.png"/><br>
 <strong>Resolution:</strong> This can be resolved by escaping user input (or otherwise somehow sanitizing it) before it is inserted into the database. Similar to issue 1, this can be addressed by using regular expression or some node module for sanitation such as sanitize-html (though one can also write their own sanitation function).
 
 <h3>Issue 3: Phishing</h3>
 <strong>Location:</strong> homepage, sendLocation<br>
 <strong>Severity:</strong> High. One can make the site look innocent, yet by clicking anywhere, a hacker can force the user to execute any script.<br>
 <strong>Description:</strong> When the client looks at the homepage, everything looks normal. However, if they click anywhere, a javascript function is executed and an alert is shown. This occurs when a phishing script is sent to /sendLocation as the login.<br>
-<strong>Proof of vulnerability:</strong><br>
+<strong>Proof of vulnerability:</strong><br><img class="image" src="img/phish1.png"/><img class="image" src="img/phish3.png"/><br>
 <strong>Resolution:</strong> Sanitize the user input for the name. Additionally, making sure that the user is not trying to change any styles in the page is another thing to worry about.<br>
 
 <h2>Conclusion:</h2>

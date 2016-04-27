@@ -26,7 +26,7 @@ app.get('/cool', function(request, response) {
 });
 
 app.get('/lab8', function(request, response) {
-        response.sendFile(path.join(__dirname, 'public/lab8.html'));
+        response.sendFile(path.join(__dirname, 'public','lab8.html'));
 });
 
 app.listen(app.get('port'), function() {

@@ -72,7 +72,7 @@
                                 // var url = "http://cryptic-plains-27113.herokuapp.com/sendLocation";
                                 
 //                                var url = "http://130.64.142.91:3000/sendLocation";
-                        url = "https://pumpkin-tart-22013.herokuapp.com/sendLocation";
+                        
 			var request = new XMLHttpRequest();
 
                                 sendData = "login="+login+"&lat="+ myLat +"&lng="+ myLng;

@@ -1,0 +1,42 @@
+<!doctype html>
+<html>
+<head>
+</head>
+<body>
+
+<h1>Security Assessment - David Bernstein</h1>
+<hr>
+<h2>Introduction:</h2>
+This is a security and privacy assessment of the client and server-side of @vtran's historic landmark project. This is a web application server that will provide nearby landmarks given a latitude and longitude. I have been hired to find the vulnerabilities within the site through any means necessary. 
+Methodology: 
+I began by testing via "black-box", testing without any access to the source code. Then, I examined the source code to find additional vulnerabilities. The tools I used were curl and the safari browser.
+
+<h2>Abstract of Findings:</h2>
+
+<h3>Issue 1: Cross Site Scripting (XSS)</h3>
+<strong>Location:</strong> homepage, sendLocation<br>
+<strong>Severity:</strong> High. This can been seen by all users, so it can immediately turn users away from the site. Additionally, this can make a script be ran on every client's computer.<br>
+<strong>Description:</strong> When the user parses the login, latitude, and longitude posted by the user, no sanitation is performed. Thus, if a script is posted into any one of the fields, then the database will simply think that the script is just another name. Then, when providing all of the names in the index page, the script will be executed. For instance, using the command "curl --data "lat=1&lng=1&login=<script>window.location ='http://www.google.com'\
+</script>" https://pumpkin-tart-22013.herokuapp.com/sendLocation", one can force the site to automatically redirect to google.<br>
+<strong>Proof of vulnerability:</strong><br>
+<strong>Resolution:</strong> This can be resolved by replacing special characters using regular expression. Another solution is to use a npm module (i.e. sanitize-html) to handle the sanitation of user data so that no script tags can be allowed.
+
+<h3>Issue 2: Image injection</h3>
+<strong>Location:</strong> homepage, sendLocation<br>
+<strong>Severity:</strong> Medium. While this can be seen by all users, it only displays an image, which, while can turn away users, is not dangerous to their machines.<br>
+<strong>Description:</strong> When posting to /sendLocation, if one says that their login is an image by saying "login=<'img src=[image url] />, then an image will appear instead of a name.<br>
+<strong>Proof of vulnerability:</strong><br>
+<strong>Resolution:</strong> This can be resolved by escaping user input (or otherwise somehow sanitizing it) before it is inserted into the database. Similar to issue 1, this can be addressed by using regular expression or some node module for sanitation such as sanitize-html (though one can also write their own sanitation function).
+
+<h3>Issue 3: Phishing</h3>
+<strong>Location:</strong> homepage, sendLocation<br>
+<strong>Severity:</strong> High. One can make the site look innocent, yet by clicking anywhere, a hacker can force the user to execute any script.<br>
+<strong>Description:</strong> When the client looks at the homepage, everything looks normal. However, if they click anywhere, a javascript function is executed and an alert is shown. This occurs when a phishing script is sent to /sendLocation as the login.<br>
+<strong>Proof of vulnerability:</strong><br>
+<strong>Resolution:</strong> Sanitize the user input for the name. Additionally, making sure that the user is not trying to change any styles in the page is another thing to worry about.<br>
+
+<h2>Conclusion:</h2>
+Overall, the main issue is in user input sanitation. All three of these issues can be fixed by making sure the user is not inputting malicious data. One could hire a developer to do this for a couple hundred dollars. On another note, one should observe that the site is inherently a security risk because it is a huge risk to user privacy. By blatantly revealing the exact latitude and longitude of every user, hackers can use this to their advantage. A secure login/user system would be extremely beneficial for this.
+</body>
+
+</html>

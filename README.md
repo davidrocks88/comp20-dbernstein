@@ -1,6 +1,6 @@
 This is a Git repository of all of my comp 20 assignments and labs, ranging from front end and design work to back end server development.
 
-My favorite assignment was easily assignment 3. I got to make two computers communicate with eachother! Being able to control what goes on in front and behind the scenes was extremely gratifying.
+My favorite assignment was easily assignment 3. I got to make two computers communicate with eachother! Being able to control what goes on in front and behind the scenes was very gratifying.
 
 My growth throughout this class has been surprising, to say the least. I never thought that I would get hooked on web development, and yet now I find myself doing some sort of web dev every day. The fact that I can make tangible products that I can show my friends got me hooked, and now I cannot stop learning new ideas and techniques to make my work even better. I also grew as a teacher; I learned that it is infinitely more gratifying to see a fellow student work through a solution by themselves (with a couple hints, occasionally), rather than me giving them the code to just copy down.
 
